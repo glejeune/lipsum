@@ -1,0 +1,86 @@
+This class allow you to retrive "lorem ipsum" placeholder text from lipsum.com.
+
+== What is "lorem ipsum"?
+
+"Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+when an unknown printer took a galley of type and scrambled it to make a type 
+specimen book. It has survived not only five centuries, but also the leap 
+into electronic typesetting, remaining essentially unchanged. It was 
+popularised in the 1960s with the release of Letraset sheets containing Lorem 
+Ipsum passages, and more recently with desktop publishing software like Aldus 
+PageMaker including versions of Lorem Ipsum." (from lipsum.com)
+
+== Synopsys
+
+  require 'lipsum'
+
+  t = Lipsum.new( )
+  t.paragraphs[3]
+  
+  puts t
+
+or
+
+  puts Lipsum.paragraphs[3]
+
+=== Initialization
+
+  Lipsum::new( start = true )
+  
+If start is set to true, the placeholder text will start with 'Lorem ipsum 
+dolor sit amet...'.
+
+=== Create paragraphs, words, bytes or lists
+
+  Lipsum.paragraphs[size]
+  Lipsum.words[size]
+  Lipsum.bytes[size]
+  Lipsum.lists[size]
+  
+With those methods, you can create placeholder texts with size `size'
+
+You can also use 
+
+  Lipsum#paragraphs![size] 
+
+which is the same thing as 
+
+  Lipsum.new(true).paragraphs[size] 
+
+or
+
+  Lipsum#paragraphs[size]
+
+which is the same thing as 
+
+  Lipsum.new(false).paragraphs[size] 
+
+This is also avalaible for words, bytes ans lists
+
+=== Print
+
+  Lipsum.to_s
+  Lipsum.to_html
+
+You can just 'puts' the Lipsum instance to print the text version. If you want 
+an html version, use Lipsum.to_html
+
+== Requirements
+
+This lib require nokogiri : http://nokogiri.rubyforge.org/nokogiri/
+
+== Licence
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see http://www.gnu.org/licenses/.

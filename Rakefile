@@ -53,6 +53,8 @@ spec =
 
       s.files = PKG_FILES
       s.require_path = "lib"
+      
+      s.add_dependency('nokogiri')
 
       s.rubyforge_project = 'ruby-asp'
       s.has_rdoc = true

@@ -19,16 +19,12 @@ class Lipsum
     end
     
     def to_s
-      r = ""
-      Nokogiri::XML.parse(@lorem_ipsum.to_s).xpath('/div[@id="lipsum"]/p').each do |p|
-        r << p.content.to_s.strip << "\n\n"
-      end
-      r
+      @lorem_ipsum.inner_text()
     end
     alias_method :to_string, :to_s
     
     def to_html
-      Nokogiri::XML.parse(@lorem_ipsum.to_s).xpath('/div[@id="lipsum"]/p').to_s
+      self.to_s.split( /\n/ ).map{ |e| "<p>#{e}</p>\n" }.join()
     end
     
     private
@@ -36,10 +32,11 @@ class Lipsum
     def generate
       opts = {'amount' => @amount, 'what' => @what}
       opts['start'] = 1 if @start
-      response = Net::HTTP.post_form(URI.parse('http://lipsum.com/feed/html'), opts)
-      html = Nokogiri::HTML.parse(response.body)
+      response = Net::HTTP.post_form(URI.parse('http://lipsum.com/feed/xml'), opts)
+      
+      xml = Nokogiri::XML.parse(response.body)
 
-      @lorem_ipsum = html.xpath('//div[@id="lipsum"]')
+      @lorem_ipsum = xml.xpath('//lipsum')
     end
   end
   
@@ -71,16 +68,11 @@ class Lipsum
     end
     
     def to_s
-      r = ""
-      Nokogiri::XML.parse(@lorem_ipsum.to_s).xpath('/div[@id="lipsum"]/ul').each do |ul|
-        r << ul.content.to_s.strip.split(/\n/).map { |x| "* " << x }.join( "\n" )
-        r << "\n\n"
-      end
-      r
+      @lorem_ipsum.inner_text().split( /\n/ ).map{ |e| "- #{e}\n" }.join()
     end
     
     def to_html
-      Nokogiri::XML.parse(@lorem_ipsum.to_s).xpath('/div[@id="lipsum"]/ul').to_s
+      "<ul>\n" + @lorem_ipsum.inner_text().split( /\n/ ).map{ |e| "<li>#{e}</li>\n" }.join() + "</ul>"
     end
   end
   
